@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaleTrack</title>
+    <style>
+        body{
+    background-color: rgb(196, 195, 195);
+    margin: 0;
+    padding: 0;
+}
+header{
+    position: relative;
+    width: 100%;
+    text-align: center;
+    background-color:rgb(179, 174, 174);
+    font-size: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgb(174, 167, 167);
+}
+nav{
+    position: relative;
+    width: 100%;
+    margin: 5px 0;
+}
+.navFeature{
+    display: inline;
+}
+.navFeature button{
+    all: unset;
+    padding: 5px;
+    background-color: rgb(194, 193, 193);
+    border: 1px solid  rgb(152, 147, 147);
+    margin: 0 10px;
+    text-align: center;
+    width: 100px;
+}
+.mainScreenContainer{
+    position: relative;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 40% 60%;
+}
+.itemButtonsContainer{
+    position: relative;
+    width: 90%;
+    margin: 5px auto;
+    padding: 10px;
+    background-color: rgb(194, 193, 193);
+    border: 1px solid  rgb(152, 147, 147);
+
+}
+.itemContainer{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    text-align: left;
+    min-height: 130px;
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.itemContainer button{
+    all: unset;
+    background-color: rgb(194, 193, 193);
+    border: 1px solid  rgb(152, 147, 147);
+    padding: 15px;
+    text-align: center;
+    margin: auto;
+    font-size: 20px;
+    height: 30px;
+    box-shadow: 2px 2px 1px rgb(173, 169, 169);
+}
+.itemContainer .addItemButtons{
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 2px;
+}
+.quantityNumberButtons,.paymentNumberContainer{
+    margin-top: 20px;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+}
+.quantityNumberButtons button,.paymentNumberContainer button{
+    all: unset;
+    text-align: center;
+    background-color: rgb(194, 193, 193);
+    border: 1px solid  rgb(152, 147, 147);
+    margin: 5px;
+    padding: 20px;
+    font-size: 30px;
+    box-shadow: 2px 2px 1px rgb(173, 169, 169);
+}
+.paymentNumberContainer{
+    display: none;
+}
+#payment{
+    width: 100px;
+}
+.itemScreenContainer{
+    position: relative;
+    padding: 5px 20px;
+
+}
+#itemTables{
+    background-color: rgb(235, 243, 240);
+    width: 100%;
+    text-align: center;
+
+}
+.itemTables{
+    background-color: rgb(235, 243, 240);
+    height: 40vh;
+    overflow-y: scroll ;
+    overflow-x: hidden;
+}
+#itemTables .title{
+    background-color: rgb(194, 193, 193);
+
+}
+.title th{
+    padding: 10px;
+    
+}
+#itemTables td{
+    padding: 5px;
+}
+td button{
+    all: unset;
+    cursor: pointer;
+}
+#quantityItemsContainer{
+    background-color: rgb(235, 243, 240);
+    margin: 5px 0;
+    text-align: right;
+    padding: 10px 0;
+    font-size: 30px;
+    padding-right: 10px;
+}
+.totalContainer{
+    background-color: rgb(235, 243, 240);
+    margin: 5px 0;
+    text-align: right;
+    padding: 10px 0;
+    font-size: 17px;
+    line-height: 30px;
+    padding-right: 10px;
+}
+.screenNavigationContainer{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    
+}
+.screenNavigationContainer button{
+    all: unset;
+    background-color:rgb(162, 154, 154);
+    margin: 5px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+/*add Button*/
+.addButton{
+    background-color: rgb(162, 154, 154);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    padding: 10px 10px 70px 10px;
+    display: none;
+}
+.addButton::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: inherit;
+    filter: blur(10px); /* Same blur amount as backdrop-filter */
+    z-index: -1;
+  }
+.itemExit{
+    all: unset;
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    font-size: 20px;
+}
+.addButton h1{
+    margin: 20px 0 10px 0 ;
+    font-size: 25px;
+    text-align: center;
+}
+.addButton label{
+    font-size: 15px;
+    padding-left: 10px;
+}
+.addButton input{
+    width: 50%;
+    float: right;
+    padding: 3px;
+}
+input:focus {
+    outline: none;
+  }
+.addItemButton{
+    all: unset;
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    background-color: rgb(194, 193, 193) ;
+}
+
+section.history {
+    margin-top: 20px;
+    width: 100%;
+    padding: 20px 0;
+    background-color:  rgb(206, 206, 206);
+}
+.history table{
+    width: 100%;
+    text-align: center;
+    
+}
+.history h2{
+    padding: 0px 20px;
+    font-size: 20px;
+}
+@media only screen and (max-width: 600px){
+    .mainScreenContainer{
+       display: flex;
+       flex-wrap: wrap-reverse;
+    }
+    .itemScreenContainer{
+        width: 100%;
+    }
+}
+    </style>
+</head>
+<body>
+    <header>SaleTrack Lite</header>
+    <nav>
+        <div class="navFeature">
+            <button class="addItemButtons" onclick="showAddButton()">Add item</button>
+            <button class="showStocks" onclick="deletePurchaseHistory()"> Delete History</button>
+
+        </div>
+    </nav>
+    <section class="mainScreenContainer">
+        <div class="itemButtonsContainer">
+            
+            <div class="itemContainer" id="itemContainer">
+            </div>
+            <div class="numbersContainer">
+                 <div class="quantityNumberButtons" id="quantityNumberButtons">
+                    <button onclick="setQuantity('1')">1</button>
+                    <button onclick="setQuantity('2')">2</button>
+                    <button onclick="setQuantity('3')">3</button>
+                    <button onclick="setQuantity('4')">4</button>
+                    <button onclick="setQuantity('5')">5</button>
+                    <button onclick="setQuantity('6')">6</button>
+                    <button onclick="setQuantity('7')">7</button>
+                    <button onclick="setQuantity('8')">8</button>
+                    <button onclick="setQuantity('9')">9</button>
+                    <button onclick="setQuantity('0')">0</button>
+                    <button onclick="ClearQuantity()">C</button>
+                    <button onclick="deleteQuantity()">X</button>
+                </div>
+                <div class="paymentNumberContainer" id="paymentNumberContainer">
+                    <button onclick="setPayment('1')">1</button>
+                    <button onclick="setPayment('2')">2</button>
+                    <button onclick="setPayment('3')">3</button>
+                    <button onclick="setPayment('4')">4</button>
+                    <button onclick="setPayment('5')">5</button>
+                    <button onclick="setPayment('6')">6</button>
+                    <button onclick="setPayment('7')">7</button>
+                    <button onclick="setPayment('8')">8</button>
+                    <button onclick="setPayment('9')">9</button>
+                    <button onclick="setPayment('0')">0</button>
+                    <button onclick="setPayment('.')">.</button>
+                    <button onclick="deletePayment()">C</button>
+                </div>
+            </div>
+        </div>
+        <div class="itemScreenContainer">
+            <div class="itemTables" id="itemTablesContainer">
+                    <table id="itemTables">
+                    <tr class="title">
+                        <th class="item">Items</th>
+                        <th class="quantity">Quantity</th>
+                        <th class="price">Price</th>
+                        <th class="total">Total</th>
+                        <th>Action</th>
+                    </tr>
+                </table>
+            </div>
+            
+            <div id="quantityItemsContainer">0</div>
+            <div class="totalContainer">
+                Total: P <span id="totalAmount">0.00</span><br>
+                Payment: P <span id="payment" >0.00</span><br>
+                Change: P <span id="change">0.00</span>
+            </div>
+            <div class="screenNavigationContainer">
+                <button onclick="history()">History</button>
+                <button onclick="downloadHistory()">Download</button>
+                <button onclick="clearCurrentPurchase()">Clear</button>
+                <button onclick="finish()">Next</button>
+            </div>
+        </div>
+    </section>
+    <div class="addButton" id="addButton">
+        <h1>Add Item Button</h1>
+        <button class="itemExit" onclick="exitAddButton()">x</button><br>
+        <label for="buttonName">Item Name</label>
+        <input type="text" name="buttonName" id="buttonName" required><br><br>
+        <label for="buttonPrice">Item Price</label>
+        <input type="number" name="buttonPrice" id="buttonPrice" required><br><br>
+        <button class="addItemButton" onclick="addItemButton()">ADD</button>
+    </div>
+    <section class="history">
+        
+    </section>
+    <script>
+        var itemTables = document.getElementById("itemTables");
+var currentQuantity = "";
+var payments = "";
+var totalAmount = 0;
+var payment = document.getElementById("payment");
+var hiddenDiv = document.getElementById("paymentNumberContainer");
+var nothiddenDiv = document.getElementById("quantityNumberButtons");
+var itemTablesContainer = document.getElementById("itemTablesContainer");
+
+function showAddButton(){
+    var showAddButton = document.getElementById("addButton");
+    showAddButton.style.display ="block";
+}
+function exitAddButton(){
+    var showAddButton = document.getElementById("addButton");
+    showAddButton.style.display ="none";
+}
+
+
+// Function to load buttons from local storage and create them on page load
+function loadButtonsFromLocalStorage() {
+    var existingButtons = JSON.parse(localStorage.getItem("buttons")) || [];
+
+    var buttonContainer = document.getElementById("itemContainer");
+
+    existingButtons.forEach(function (buttonInfo) {
+        var newButton = createButton(buttonInfo.itemName, buttonInfo.itemPrice);
+        buttonContainer.appendChild(newButton);
+    });
+}
+
+// Function to store the button in local storage
+function saveButtonToLocalStorage(itemName, itemPrice) {
+    var existingButtons = JSON.parse(localStorage.getItem("buttons")) || [];
+
+    var newButton = {
+        itemName: itemName,
+        itemPrice: itemPrice,
+    };
+
+    existingButtons.push(newButton);
+
+    localStorage.setItem("buttons", JSON.stringify(existingButtons));
+}
+
+// Function to create a button
+function createButton(itemName, itemPrice) {
+    var newButton = document.createElement("button");
+    newButton.innerText = itemName;
+
+    // Add a context menu for long press
+    newButton.addEventListener('contextmenu', function (event) {
+        event.preventDefault();
+        var confirmation = window.confirm("Do you want to delete this button?");
+        if (confirmation) {
+            var password = prompt("Enter password:");
+            // Check if the entered password is correct
+            if (password === "s3Cr3T") { // Replace "your_password" with the actual password
+                // Delete the button and remove from local storage
+                newButton.parentNode.removeChild(newButton);
+                removeFromLocalStorage(itemName);
+            } else {
+                alert("Incorrect password. Button not deleted.");
+            }
+        }
+    });
+
+    // Add a click event to call the addItem function
+    newButton.onclick = function () {
+        addItem(itemName, itemPrice);
+    };
+
+    return newButton;
+}
+
+// Function to remove the button from local storage
+function removeFromLocalStorage(itemName) {
+    var existingButtons = JSON.parse(localStorage.getItem("buttons")) || [];
+
+    // Find the button by itemName and remove it from the array
+    existingButtons = existingButtons.filter(function (button) {
+        return button.itemName !== itemName;
+    });
+
+    // Save the updated array back to local storage
+    localStorage.setItem("buttons", JSON.stringify(existingButtons));
+}
+
+// Load buttons from local storage when the page loads
+document.addEventListener("DOMContentLoaded", function () {
+    loadButtonsFromLocalStorage();
+});
+
+// Function to add a new item button
+function addItemButton() {
+    var itemName = document.getElementById("buttonName").value;
+    var itemPrice = parseFloat(document.getElementById("buttonPrice").value);
+
+    var newButton = createButton(itemName, itemPrice);
+    document.getElementById("itemContainer").appendChild(newButton);
+
+    saveButtonToLocalStorage(itemName, itemPrice);
+
+    var showAddButton = document.getElementById("addButton");
+    showAddButton.style.display ="none";
+    document.getElementById("buttonName").value = "";
+    document.getElementById("buttonPrice").value = "";
+}
+
+
+function setQuantity(quantity) {
+    currentQuantity += quantity;
+    document.getElementById("quantityItemsContainer").innerHTML = currentQuantity;
+}
+
+function addItem(itemName, price) {
+    var itemRow = document.createElement('tr');
+    itemRow.className = "itemRow";
+
+    if (currentQuantity === "") {
+        currentQuantity = 1;
+    }
+
+    var itemNames = document.createElement('td');
+    itemNames.className = "itemNames";
+    itemNames.innerHTML = itemName;
+
+    var itemQuantity = document.createElement('td');
+    itemQuantity.className = "itemQuantity";
+    itemQuantity.innerHTML = currentQuantity;
+
+    var itemPriceCell = document.createElement('td');
+    itemPriceCell.className = "itemPrice";
+    itemPriceCell.innerHTML = price.toFixed(2);
+
+    var itemTotal = document.createElement('td');
+    itemTotal.className = "itemTotal";
+    itemTotal.innerHTML = (price * currentQuantity).toFixed(2);
+
+    var deleteButtonCell = document.createElement('td');
+    var deleteButton = document.createElement('button');
+    deleteButton.innerText = 'X';
+    deleteButton.onclick = function () {
+        itemTables.removeChild(itemRow);
+        payment.innerText = "0.00";
+        document.getElementById("change").innerText = "0.00";
+        compute();
+    };
+    deleteButtonCell.appendChild(deleteButton);
+
+    itemTables.appendChild(itemRow);
+    itemRow.appendChild(itemNames);
+    itemRow.appendChild(itemQuantity);
+    itemRow.appendChild(itemPriceCell);
+    itemRow.appendChild(itemTotal);
+    itemRow.appendChild(deleteButtonCell);
+
+    currentQuantity = ""; 
+    document.getElementById("quantityItemsContainer").innerHTML = "0";
+    compute();
+
+}
+
+
+function deleteQuantity() {
+    currentQuantity = currentQuantity.slice(0, -1);
+    if(currentQuantity == ""){
+        document.getElementById("quantityItemsContainer").innerHTML = "0";
+    }else{
+        document.getElementById("quantityItemsContainer").innerHTML = currentQuantity;
+    }
+    
+    
+}
+function ClearQuantity(){
+    currentQuantity = "";
+    document.getElementById("quantityItemsContainer").innerHTML = 0;
+}
+
+function compute() {
+    totalAmount = 0;
+    var itemTotalCells = document.querySelectorAll('.itemTotal');
+    itemTotalCells.forEach(function (cell) {
+        totalAmount += parseFloat(cell.innerHTML);
+    });
+    document.getElementById("totalAmount").innerText = totalAmount.toFixed(2); 
+    
+}
+
+ // Add input event listener to the editable div
+ payment.addEventListener("input", function () {
+    // Clear the focus to prevent the virtual keyboard from appearing
+    payment.blur();
+});
+payment.addEventListener("click", function () {
+    // Toggle the display property of the hidden div
+    hiddenDiv.style.display = "grid";
+    nothiddenDiv.style.display = "none";
+});
+itemTablesContainer.addEventListener("click", function () {
+    // Toggle the display property of the hidden div
+    hiddenDiv.style.display = "none";
+    nothiddenDiv.style.display = "grid";
+    if(payment == ""){
+        payment.innerText = payments.toFixed(2);
+    }
+});
+
+function setPayment(number) {
+    payments += number;
+    payment.innerText = payments;
+
+
+    if (!isNaN(parseFloat(payments))) {
+        var numericPayment = parseFloat(payments);
+
+        if (numericPayment >= totalAmount) {
+            payment.innerText = numericPayment.toFixed(2);
+
+            var changeDue = numericPayment - totalAmount;
+            document.getElementById("change").innerText = changeDue.toFixed(2);
+        }
+    }
+}
+function deletePayment() {
+        payments = 0;
+        payment.innerText = payments.toFixed(2);
+        document.getElementById("change").innerText = "0.00";
+}
+
+
+
+function finish() {
+    // Get the data from the current purchase
+    var purchaseData = [];
+    var itemRows = document.querySelectorAll('#itemTables tr:not(:first-child)');
+    itemRows.forEach(function (row) {
+        var columns = row.querySelectorAll('td');
+        var item = {
+            name: columns[0].innerText,
+            quantity: columns[1].innerText,
+            price: columns[2].innerText,
+            total: columns[3].innerText
+        };
+        purchaseData.push(item);
+    });
+
+    // Save the purchase data to local storage
+    var historyData = JSON.parse(localStorage.getItem('purchaseHistory')) || [];
+    historyData.push(purchaseData);
+    localStorage.setItem('purchaseHistory', JSON.stringify(historyData));
+
+    // Display the purchased items in the history table
+    clearCurrentPurchase();
+    history();
+
+
+}
+
+function displayPurchaseHistory(purchaseData) {
+    var historyTable = document.getElementById("purchaseHistoryTable");
+
+    // Insert a new row for each item in the current purchase
+    purchaseData.forEach(function (item) {
+        var row = historyTable.insertRow();
+        row.innerHTML = '<td>' + item.name + '</td><td>' + item.quantity + '</td><td>' + item.price + '</td><td>' + item.total + '</td><td><button onclick="deletePurchase(' + index + ')">Delete</button></td>';
+    });
+}
+
+function displayWebsitePurchaseHistory() {
+    var historySection = document.querySelector('.history');
+    historySection.innerHTML = ''; // Clear previous content
+
+    // Get the purchase history from local storage
+    var historyData = JSON.parse(localStorage.getItem('purchaseHistory')) || [];
+
+    // Display each purchase in a table
+    historyData.forEach(function (purchase, index) {
+        var purchaseTable = document.createElement('table');
+        purchaseTable.innerHTML = '<tr><th>Items</th><th>Quantity</th><th>Price</th><th>Total</th><th>Action</th></tr>';
+        
+        purchase.forEach(function (item) {
+            var row = purchaseTable.insertRow();
+            row.innerHTML = '<td>' + item.name + '</td><td>' + item.quantity + '</td><td>' + item.price + '</td><td>' + item.total + '</td><td><button onclick="deletePurchase(' + index + ')">Delete</button></td>';
+        });
+
+        var historyTitle = document.createElement('h2');
+        historyTitle.textContent = 'Purchase History ' + (index + 1) ;
+
+        historySection.appendChild(historyTitle);
+        historySection.appendChild(purchaseTable);
+    });
+}
+
+function clearCurrentPurchase() {
+    // Get a reference to the item table container
+    var itemTablesContainer = document.getElementById("itemTablesContainer");
+
+    // Clear the item table and reset quantities
+    var itemTable = document.getElementById("itemTables");
+    itemTable.innerHTML = '';  // Clear existing rows
+
+    // Create and append a new title row
+    var titleRow = document.createElement('tr');
+    titleRow.className = 'title';
+    titleRow.innerHTML = '<th class="item">Items</th><th class="quantity">Quantity</th><th class="price">Price</th><th class="total">Total</th><th>Edit</th>';
+    itemTable.appendChild(titleRow);
+
+    // Reset other elements
+    currentQuantity = "";
+    document.getElementById("quantityItemsContainer").innerHTML = "0";
+
+    totalAmount = 0;
+    payment = 0;
+    document.getElementById("totalAmount").innerText = totalAmount.toFixed(2);
+    document.getElementById("payment").innerText = payment.toFixed(2);
+    document.getElementById("change").innerText = "0.00";
+}
+
+
+function deletePurchase(index) {
+    var password = prompt("Enter the password:");
+
+    if (password === "s3Cr3T") {
+        var historyData = JSON.parse(localStorage.getItem('purchaseHistory')) || [];
+
+    // Remove the selected purchase from the history
+    historyData.splice(index, 1);
+
+    // Update local storage with the modified history
+    localStorage.setItem('purchaseHistory', JSON.stringify(historyData));
+
+    // Update the displayed purchase history on the website
+    displayWebsitePurchaseHistory();
+    } else {
+        alert("Incorrect password. Please try again.");
+    }
+    
+}
+
+
+
+displayWebsitePurchaseHistory();
+displayPurchaseHistory(purchaseData);
+
+function downloadHistory() {
+    // Get the purchase history from local storage
+    var historyData = JSON.parse(localStorage.getItem('purchaseHistory')) || [];
+
+    // Create a CSV content with a header line
+    var csvContent = "data:text/csv;charset=utf-8,\n\n";
+    csvContent += ",History of Purchase\n\n";
+    csvContent += "Name,Quantity,Price,Total\n"; // Header line
+
+    var totalSum = 0; // Variable to store the sum of all item totals
+
+    historyData.forEach(function (purchase) {
+        purchase.forEach(function (item) {
+            csvContent += item.name + "," + item.quantity + "," + item.price + "," + item.total + "\n";
+            totalSum += parseFloat(item.total); // Add the item total to the sum
+        });
+
+    });
+
+    // Add the sum line to the CSV content
+    csvContent += ",Total Daily Profit:,," + totalSum + "\n";
+
+    // Create a Blob with the CSV content
+    var blob = new Blob([csvContent], { type: "text/csv" });
+
+    // Create a link to download the CSV file
+    var link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "purchase_history.csv";
+
+    // Trigger the link click to start the download
+    link.click();
+}
+
+
+
+function deletePurchaseHistory() {
+    
+    var password = prompt("Enter the password:");
+
+    if (password === "s3Cr3T") {
+        localStorage.removeItem('purchaseHistory');
+        displayWebsitePurchaseHistory();
+        // Optionally, you can also clear the displayed history on the website
+        var historyTable = document.getElementById("purchaseHistoryTable");
+        historyTable.innerHTML = '';
+    } else {
+        alert("Incorrect password. Please try again.");
+    }
+
+    
+    
+    
+}
+ function history(){
+    
+    displayWebsitePurchaseHistory();
+    displayPurchaseHistory(purchaseData);
+ }
+    </script>
+</body>
+</html>
